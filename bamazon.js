@@ -23,11 +23,11 @@ connection.connect(function(err){
 
 function readProducts() {
   console.log("Next you can choose the quantity.");
-  connection.query("SELECT item_id, product_name, price FROM products", function(err, res) {
+  connection.query("SELECT item_id, product_name, price FROM products", function(err, response) {
     if (err) throw err;
-    // Log all results of the SELECT statement
+    // Log results of all the products 
      for (var i = 0; i < res.length; i++) {
-          console.log("ID: " + res[i].item_id + " || Product: " + res[i].product_name + " || Price: " + res[i].price);
+          console.log("ID: " + ressponse[i].item_id + " || Product: " + response[i].product_name + " || Price: " + ressponse[i].price);
         }
   	});
 }
@@ -59,18 +59,16 @@ inquirer.prompt ([
 			//check if item is in stock
 			if(inStock === 0 && amount > inStock) {
 				console.log("out of stock!")
-				//without being able to fulfill an order, placeOrder will run again.
 				orderProducts();
 
 			}
-			//check if there is sufficient quantity of item for requested amount
+
 		    else if(amount > inStock) {
 				console.log("insufficient quantity");
-				//without being able to fulfill an order, placeOrder will run again.
 				orderProducts();
 			} 
 			else {
-				//calculate the total of the bill
+				//total
 				var total = amount * cost
 
 				//update the database
@@ -82,7 +80,6 @@ inquirer.prompt ([
 					}
 				]);
 
-				//tell customer their total.
 				console.log("Your purchase total is:  $" + total);
 
 				//end the connection.
