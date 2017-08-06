@@ -38,13 +38,12 @@ function createProduct() {
 
 
 
-
-
+//just reads the products in the database 
 function readProducts() {
   console.log("Next you can choose the quantity.");
   connection.query("SELECT item_id, product_name, price FROM products", function(err, response) {
     if (err) throw err;
-    // Log results of all the products 
+
      for (var i = 0; i < response.length; i++) {
           console.log("ID: " + response[i].item_id + " || Product: " + response[i].product_name + " || Price: " + response[i].price);
         }
@@ -65,10 +64,10 @@ inquirer.prompt ([
 		message: "How many units would you like to buy?"
 	}
 	]).then(function(response) {
-		//if you choose just 'quantity' number its one above the numbers you actually want. this is because the terminal will start at 0 and there is no zero in your products item_id field
+		//if you choose just 'quantity' number its one above the numbers you actually want. this is because the terminal will start at 0 and there is no zero in your products item_id field. this is stupid 
 		var realID = response.itemID; 
 		var id = parseInt(realID) -1; 
-		var amount = parseInt(response.quantity); 
+		var amount = parseInt(response.quantity); 	
 
 		connection.query("SELECT * FROM products", function(err, result) {
 
@@ -88,7 +87,7 @@ inquirer.prompt ([
 			} 
 			else {
 				//total
-				var total = amount * cost
+				var total = amount * cost;
 
 				//update the database
 				connection.query("UPDATE products SET ? WHERE ?", [
